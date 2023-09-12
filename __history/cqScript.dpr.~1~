@@ -2,8 +2,7 @@ program cqScript;
 
 uses
   Vcl.Forms,
-  Unit1 in 'Unit1.pas' {Form1},
-  CaptionBar in 'CaptionBar.pas';
+  Unit1 in 'Unit1.pas' {Form1};
 
 {$R *.res}
 

@@ -67,10 +67,10 @@ object Form1: TForm1
     Caption = 'Panel1'
     TabOrder = 2
   end
-    object Panel2: TCaptionBar
-    Left = 24
-    Top = 120
-    Width = 185
-    Height = 89
+    object cap1: TCaptionBar
+    Left = 20
+    Top = 20
+    Width = 20
+    Height = 20
   end
 end

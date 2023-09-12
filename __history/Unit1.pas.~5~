@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,CaptionBar;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TForm1 = class(TForm)
@@ -15,7 +15,6 @@ type
     Label3: TLabel;
     Image1: TImage;
     Memo1: TMemo;
-    Panel1: TPanel;
     procedure Button1Click(Sender: TObject);
 
   private
@@ -42,24 +41,13 @@ procedure TForm1.Button1Click(Sender: TObject);
 var
   b: TBitmap;
   rect:TRect;
-
-    point: TPoint;
    hWin: Cardinal;
 begin
  hWin := GetForegroundWindow;
     GetWindowRect (hWin, rect);
              Memo1.Lines.Clear;
   Memo1.Lines.Add('left:'+inttostr(rect.Left));
-    Memo1.Lines.Add('top:'+inttostr(rect.Top));
-
-     GetCursorPos(point);
-     point.X:=30;
-     point.y:=30;
-      point := ScreenToClient(point);
-         Memo1.Lines.Add('px:'+inttostr(point.x));
-    Memo1.Lines.Add('py:'+inttostr(point.y));
-
-
+    Memo1.Lines.Add('right:'+inttostr(rect.Right));
   b := TBitmap.Create;
   try
     ScreenShot(TRUE, b);

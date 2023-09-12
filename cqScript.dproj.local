@@ -3,8 +3,10 @@
 	<Transactions>
     <Transaction>2023/08/25 14:43:29.000.840,=C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2023/08/25 16:37:35.000.201,C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
-    <Transaction>2023/09/12 21:02:37.414,C:\cq\debug\cqScript\Unit1.pas=C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2023/09/12 21:02:37.414,C:\cq\debug\cqScript\Unit1.dfm=C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2023/09/12 21:03:14.323,C:\cq\debug\cqScript\cqScript.dproj=C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2023/09/12 21:02:37.000.414,C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\cq\debug\cqScript\Unit1.dfm</Transaction>
+    <Transaction>2023/09/12 21:02:37.000.414,C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\cq\debug\cqScript\Unit1.pas</Transaction>
+    <Transaction>2023/09/12 21:03:14.000.323,C:\Users\ygh\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\cq\debug\cqScript\cqScript.dproj</Transaction>
+    <Transaction>2023/09/13 00:35:12.333,=D:\debug\cqScript\Unit2.pas</Transaction>
+    <Transaction>2023/09/13 00:37:20.263,D:\debug\cqScript\CaptionBar.pas=D:\debug\cqScript\Unit2.pas</Transaction>
   </Transactions>
 </BorlandProject>
