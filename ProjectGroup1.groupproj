@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9ED07285-F515-4A3B-B1D7-53A2B7FF2BEF}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="cqScript.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Users\ygh\Documents\Embarcadero\Studio\Projects\test1.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="cqScript">
+        <MSBuild Projects="cqScript.dproj"/>
+    </Target>
+    <Target Name="cqScript:Clean">
+        <MSBuild Projects="cqScript.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cqScript:Make">
+        <MSBuild Projects="cqScript.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="test1">
+        <MSBuild Projects="C:\Users\ygh\Documents\Embarcadero\Studio\Projects\test1.dproj"/>
+    </Target>
+    <Target Name="test1:Clean">
+        <MSBuild Projects="C:\Users\ygh\Documents\Embarcadero\Studio\Projects\test1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="test1:Make">
+        <MSBuild Projects="C:\Users\ygh\Documents\Embarcadero\Studio\Projects\test1.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="cqScript;test1"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="cqScript:Clean;test1:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="cqScript:Make;test1:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

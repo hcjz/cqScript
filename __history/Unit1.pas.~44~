@@ -20,8 +20,6 @@ type
     CaptionBar3: TCaptionBar;
     CaptionBar4: TCaptionBar;
     Timer1: TTimer;
-    Panel1: TPanel;
-    Image2: TImage;
     procedure Button1Click(Sender: TObject);
     procedure OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Timer1Timer(Sender: TObject);
@@ -78,7 +76,7 @@ begin
     Label1.Caption := inttostr(test1);
 
     Image1.Picture.Bitmap.Assign(b);
-      Image2.Picture.Bitmap.Assign(b);
+
   finally
     b.FreeImage;
     FreeAndNil(b);
@@ -111,8 +109,8 @@ begin
     DC := GetDC(hWin);
     w := GetDeviceCaps(DC, HORZRES);
     h := GetDeviceCaps(DC, VERTRES);
-    w:=25;
-    h:=25;
+    w:=10;
+    h:=10;
     x:=x-5;
     y:=y-5;
   end;
