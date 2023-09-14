@@ -92,6 +92,13 @@ object Form1: TForm1
     Height = 15
     Caption = 'FFFFFF'
   end
+  object Label12: TLabel
+    Left = 240
+    Top = 152
+    Width = 40
+    Height = 15
+    Caption = 'Label12'
+  end
   object Button1: TButton
     Left = 8
     Top = 336
@@ -103,9 +110,9 @@ object Form1: TForm1
   end
   object memo1: TMemo
     Left = 248
-    Top = 162
-    Width = 185
-    Height = 89
+    Top = 176
+    Width = 116
+    Height = 75
     Lines.Strings = (
       '')
     TabOrder = 1

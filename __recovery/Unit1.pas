@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, CaptionBar;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, CaptionBar,
+  Vcl.Buttons;
 
 type
   TForm1 = class(TForm)
@@ -13,13 +14,22 @@ type
     Button1: TButton;
     Label2: TLabel;
     Label3: TLabel;
-    Image1: TImage;
-    Memo1: TMemo;
-    CaptionBar1: TCaptionBar;
-    CaptionBar2: TCaptionBar;
-    CaptionBar3: TCaptionBar;
-    CaptionBar4: TCaptionBar;
     Timer1: TTimer;
+    Panel1: TPanel;
+    Image2: TImage;
+    Panel2: TPanel;
+    SpeedButton1: TSpeedButton;
+    memo1: TMemo;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+
     procedure Button1Click(Sender: TObject);
     procedure OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Timer1Timer(Sender: TObject);
@@ -34,7 +44,7 @@ type
     a1: string;
     a2: string;
   end;
-
+function TColorToHex(Color: TColor): string;
 procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;x:Integer;y:Integer);
 
 var
@@ -75,8 +85,8 @@ begin
     test1 := test1 + 1;
     Label1.Caption := inttostr(test1);
 
-    Image1.Picture.Bitmap.Assign(b);
 
+      Image2.Picture.Bitmap.Assign(b);
   finally
     b.FreeImage;
     FreeAndNil(b);
@@ -109,10 +119,10 @@ begin
     DC := GetDC(hWin);
     w := GetDeviceCaps(DC, HORZRES);
     h := GetDeviceCaps(DC, VERTRES);
-    w:=10;
-    h:=10;
-    x:=x-5;
-    y:=y-5;
+    w:=20;
+    h:=20;
+    x:=x-10;
+    y:=y-10;
   end;
 
   try
@@ -147,20 +157,43 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 var
   b: TBitmap;
   rect: TRect;
+  mrect: TRect;
   point: TPoint;
   hWin: Cardinal;
+  mcolor:TColor;
 begin
-  GetCursorPos(point); // 取得鼠标坐标
+  GetCursorPos(point); // 鍙栧緱榧犳爣鍧愭爣
   Memo1.Lines.Clear;
   Memo1.Lines.Add('px:' + inttostr(point.X));
   Memo1.Lines.Add('py:' + inttostr(point.Y));
 
   b := TBitmap.Create;
+  b.SetSize(20,20) ;
   try
 
     ScreenShot(false, b, Memo1,point.X,point.Y);
     // b.SaveToFile('c:\cq\debug\text.bmp');
-    Image1.Picture.Bitmap.Assign(b);
+   // Image2.Picture.Bitmap.Assign(b);
+
+   mrect.Left:=0;
+   mrect.Top:=0;
+   mrect.Right:=200;
+   mrect.Bottom:=200;
+   Image2.canvas.StretchDraw(mrect,b);
+   Image2.Canvas.Pen.Style:=Tpenstyle(0);
+    Image2.canvas.Pen.Color:= $ffff00;
+    Image2.canvas.Pen.Width:=1;
+    Image2.canvas.MoveTo(100,100);
+    Image2.canvas.LineTo(100,110);
+    Image2.canvas.LineTo(110,110);
+    Image2.canvas.LineTo(110,100);
+    Image2.canvas.LineTo(100,100);
+    mcolor:=Image2.canvas.Pixels[101,101];
+
+    label8.Caption:=IntTostr(mColor and $ff);
+    label9.Caption:=IntTostr((mColor shr 8) and $FF);
+    label10.Caption:=IntTostr((mColor shr 16) and $FF);
+    label11.Caption:=TColorToHex(mcolor);
 
   finally
     b.FreeImage;
@@ -168,6 +201,13 @@ begin
 
   end;
 
+end;
+
+function TColorToHex(Color: TColor): string;
+begin
+  Result :=
+
+    IntToHex(GetBValue(Color), 2)+IntToHex(GetGValue(Color), 2)+IntToHex(GetRValue(Color), 2);
 end;
 
 end.

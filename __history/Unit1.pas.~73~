@@ -5,8 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, CaptionBar,
-  Vcl.Buttons;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, CaptionBar;
 
 type
   TForm1 = class(TForm)
@@ -14,21 +13,10 @@ type
     Button1: TButton;
     Label2: TLabel;
     Label3: TLabel;
+    Memo1: TMemo;
     Timer1: TTimer;
     Panel1: TPanel;
     Image2: TImage;
-    Panel2: TPanel;
-    SpeedButton1: TSpeedButton;
-    memo1: TMemo;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-
     procedure Button1Click(Sender: TObject);
     procedure OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Timer1Timer(Sender: TObject);
@@ -43,7 +31,7 @@ type
     a1: string;
     a2: string;
   end;
-function TColorToHex(Color: TColor): string;
+
 procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;x:Integer;y:Integer);
 
 var
@@ -159,7 +147,6 @@ var
   mrect: TRect;
   point: TPoint;
   hWin: Cardinal;
-  mcolor:TColor;
 begin
   GetCursorPos(point); // 取得鼠标坐标
   Memo1.Lines.Clear;
@@ -186,13 +173,8 @@ begin
     Image2.canvas.LineTo(100,110);
     Image2.canvas.LineTo(110,110);
     Image2.canvas.LineTo(110,100);
-    Image2.canvas.LineTo(100,100);
-    mcolor:=Image2.canvas.Pixels[101,101];
+     Image2.canvas.LineTo(100,100);
 
-    label8.Caption:=IntTostr(Color and $ff);
-    label9.Caption:=IntTostr((Color shr 8) and $FF);
-    label10.Caption:=IntTostr((Color shr 16) and $FF);
-    label11.Caption:=TColorToHex(mcolor);
 
   finally
     b.FreeImage;
@@ -200,13 +182,6 @@ begin
 
   end;
 
-end;
-
-function TColorToHex(Color: TColor): string;
-begin
-  Result :=
-
-    IntToHex(GetBValue(Color), 2)+IntToHex(GetGValue(Color), 2)+IntToHex(GetRValue(Color), 2);
 end;
 
 end.

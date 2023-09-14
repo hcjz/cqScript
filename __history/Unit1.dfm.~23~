@@ -11,7 +11,8 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnMouseMove = FormMouseMove
+  OnCreate = FormCreate
+  OnMouseMove = OnMouseMove
   PixelsPerInch = 96
   TextHeight = 15
   object Label1: TLabel
@@ -88,5 +89,25 @@ object Form1: TForm1
     Width = 101
     Height = 1
     Caption = ''
+  end
+  object Panel1: TPanel
+    Left = 132
+    Top = 104
+    Width = 200
+    Height = 200
+    Color = $ffffff
+    ParentBackground = False
+    TabOrder = 6
+    object Image2: TImage
+      Left =0
+      Top =0
+      Width = 200
+      Height = 200
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 552
+    Top = 368
   end
 end
