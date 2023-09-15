@@ -11,7 +11,6 @@ uses
 type
   TForm1 = class(TForm)
     Label1: TLabel;
-    Button1: TButton;
     Label2: TLabel;
     Label3: TLabel;
     Timer1: TTimer;
@@ -29,26 +28,40 @@ type
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
+    ComboBox1: TComboBox;
+    Label13: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
 
     procedure Button1Click(Sender: TObject);
-    procedure OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Timer1Timer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
   end;
 
-  X = record
-    a1: string;
-    a2: string;
+  tWin = record
+    hwin: HWND;
+    title: string;
   end;
+
+  tList1 = array [0 .. 99] of tWin;
+  // 得到所有窗口
+function GetAllWin(title: string; memo: TMemo): tList1;
 function TColorToHex(Color: TColor): string;
-procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;x:Integer;y:Integer);
+procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;
+  X: Integer; Y: Integer);
 
 var
   Form1: TForm1;
+  // 选中的当前窗口句柄
+  cWND: THandle;
+  // 当前过滤的窗口标题
+  cTitle: string;
 
 implementation
 
@@ -56,6 +69,7 @@ implementation
 
 var
   test1: Integer;
+  mlist1: tList1;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
@@ -63,30 +77,26 @@ var
   rect: TRect;
 
   point: TPoint;
-  hWin: Cardinal;
+  hwin: Cardinal;
 begin
-  hWin := GetForegroundWindow;
-  GetWindowRect(hWin, rect);
-  Memo1.Lines.Clear;
-  Memo1.Lines.Add('left:' + inttostr(rect.Left));
-  Memo1.Lines.Add('top:' + inttostr(rect.Top));
+  hwin := cWND;
+  GetWindowRect(hwin, rect);
+  memo1.Lines.Clear;
+  memo1.Lines.Add('left:' + inttostr(rect.Left));
+  memo1.Lines.Add('top:' + inttostr(rect.Top));
 
   GetCursorPos(point);
 
   point := ScreenToClient(point);
-  Memo1.Lines.Add('px:' + inttostr(point.X));
-  Memo1.Lines.Add('py:' + inttostr(point.Y));
+  memo1.Lines.Add('px:' + inttostr(point.X));
+  memo1.Lines.Add('py:' + inttostr(point.Y));
 
   b := TBitmap.Create;
   try
 
-    ScreenShot(TRUE, b, Memo1,0,0);
-    // b.SaveToFile('c:\cq\debug\text.bmp');
-    test1 := test1 + 1;
-    Label1.Caption := inttostr(test1);
-
-
-      Image2.Picture.Bitmap.Assign(b);
+    ScreenShot(TRUE, b, memo1, point.X, point.Y);
+    b.SaveToFile('c:\cq\debug\text.bmp');
+    Image2.Picture.Bitmap.Assign(b);
   finally
     b.FreeImage;
     FreeAndNil(b);
@@ -94,62 +104,70 @@ begin
   end;
 end;
 
-procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;x:Integer;y:Integer);
+procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;
+  X: Integer; Y: Integer);
 var
   w, h: Integer;
   DC: HDC;
-  hWin: Cardinal;
+  hwin: Cardinal;
   r: TRect;
+  point: TPoint;
 begin
+
   if activeWindow then
   begin
-    hWin := GetForegroundWindow;
-
-    DC := GetWindowDC(hWin);
-    GetWindowRect(hWin, r);
+    hwin := cWND;
+    DC := GetWindowDC(hwin);
+    GetWindowRect(hwin, r);
     w := r.Right - r.Left;
     h := r.Bottom - r.Top;
-    w := 100;
-    h := 100;
+    w := 20;
+    h := 20;
+    memo.Clear;
+      memo.Lines.Add('left:' + inttostr(r.Left));
+      memo.Lines.Add('top:' + inttostr(r.Top));
+       memo.Lines.Add('px:' + inttostr(X));
+       memo.Lines.Add('py:' + inttostr(Y));
+
 
   end
   else
   begin
-    hWin := GetDesktopWindow;
-    DC := GetDC(hWin);
+    hwin := GetDesktopWindow;
+    DC := GetDC(hwin);
     w := GetDeviceCaps(DC, HORZRES);
     h := GetDeviceCaps(DC, VERTRES);
-    w:=20;
-    h:=20;
-    x:=x-10;
-    y:=y-10;
+    w := 20;
+    h := 20;
   end;
-
+  X := X - 10;
+  Y := Y - 10;
   try
     destBitmap.Width := w;
     destBitmap.Height := h;
     BitBlt(destBitmap.Canvas.Handle, 0, 0, destBitmap.Width, destBitmap.Height,
-      DC, x,y, SRCCOPY);
+      DC, X, Y, SRCCOPY);
   finally
-    ReleaseDC(hWin, DC);
+    ReleaseDC(hwin, DC);
 
   end;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  i: Integer;
 begin
   Timer1.Interval := 100;
   Timer1.Enabled := TRUE;
-end;
-
-procedure TForm1.OnMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
-var
-  b: TBitmap;
-  rect: TRect;
-  point: TPoint;
-  hWin: Cardinal;
-begin
+  cTitle := '取色器';
+  mlist1 := GetAllWin(Edit1.Text, memo1);
+  for i := 0 to 99 do
+  begin
+    if mlist1[i].hwin > 0 then
+    begin
+      ComboBox1.AddItem(mlist1[i].title, Sender);
+    end;
+  end;
 
 end;
 
@@ -159,41 +177,59 @@ var
   rect: TRect;
   mrect: TRect;
   point: TPoint;
-  hWin: Cardinal;
-  mcolor:TColor;
+  hwin: Cardinal;
+  mcolor: TColor;
+  captionh:integer;
+  frameh:integer;
 begin
   GetCursorPos(point); // 取得鼠标坐标
-  Memo1.Lines.Clear;
-  Memo1.Lines.Add('px:' + inttostr(point.X));
-  Memo1.Lines.Add('py:' + inttostr(point.Y));
+
+
+  // Memo1.Lines.Clear;
+  // Memo1.Lines.Add('px:' + inttostr(point.X));
+  // Memo1.Lines.Add('py:' + inttostr(point.Y));
 
   b := TBitmap.Create;
-  b.SetSize(20,20) ;
+  b.SetSize(20, 20);
   try
 
-    ScreenShot(false, b, Memo1,point.X,point.Y);
+    if cWND <> 0 then
+    begin
+      point := ScreenToClient(point);
+      //边框高
+  frameh := GetSystemMetrics(SM_CXFRAME);
+//标题高
+  captionh := GetSystemMetrics(SM_CYCAPTION);
+//菜单高
+ //menuh:=GetSystemMetrics(SM_CYMENU);
+      label13.Caption:=  inttostr(frameh);
+      ScreenShot(TRUE, b, memo1, point.X+11, point.Y+45);
+    end
+    else
+      ScreenShot(false, b, memo1, point.X, point.Y);
+
     // b.SaveToFile('c:\cq\debug\text.bmp');
-   // Image2.Picture.Bitmap.Assign(b);
+    // Image2.Picture.Bitmap.Assign(b);
 
-   mrect.Left:=0;
-   mrect.Top:=0;
-   mrect.Right:=200;
-   mrect.Bottom:=200;
-   Image2.canvas.StretchDraw(mrect,b);
-   Image2.Canvas.Pen.Style:=Tpenstyle(0);
-    Image2.canvas.Pen.Color:= $ffff00;
-    Image2.canvas.Pen.Width:=1;
-    Image2.canvas.MoveTo(100,100);
-    Image2.canvas.LineTo(100,110);
-    Image2.canvas.LineTo(110,110);
-    Image2.canvas.LineTo(110,100);
-    Image2.canvas.LineTo(100,100);
-    mcolor:=Image2.canvas.Pixels[101,101];
+    mrect.Left := 0;
+    mrect.Top := 0;
+    mrect.Right := 200;
+    mrect.Bottom := 200;
+    Image2.Canvas.StretchDraw(mrect, b);
+    Image2.Canvas.Pen.Style := Tpenstyle(0);
+    Image2.Canvas.Pen.Color := $FFFF00;
+    Image2.Canvas.Pen.Width := 1;
+    Image2.Canvas.MoveTo(100, 100);
+    Image2.Canvas.LineTo(100, 110);
+    Image2.Canvas.LineTo(110, 110);
+    Image2.Canvas.LineTo(110, 100);
+    Image2.Canvas.LineTo(100, 100);
+    mcolor := Image2.Canvas.Pixels[101, 101];
 
-    label8.Caption:=IntTostr(mColor and $ff);
-    label9.Caption:=IntTostr((mColor shr 8) and $FF);
-    label10.Caption:=IntTostr((mColor shr 16) and $FF);
-    label11.Caption:=TColorToHex(mcolor);
+    Label8.Caption := inttostr(mcolor and $FF);
+    Label9.Caption := inttostr((mcolor shr 8) and $FF);
+    Label10.Caption := inttostr((mcolor shr 16) and $FF);
+    Label11.Caption := TColorToHex(mcolor);
 
   finally
     b.FreeImage;
@@ -207,7 +243,81 @@ function TColorToHex(Color: TColor): string;
 begin
   Result :=
 
-    IntToHex(GetBValue(Color), 2)+IntToHex(GetGValue(Color), 2)+IntToHex(GetRValue(Color), 2);
+    IntToHex(GetBValue(Color), 2) + IntToHex(GetGValue(Color), 2) +
+    IntToHex(GetRValue(Color), 2);
+end;
+
+function GetAllWin(title: string; memo: TMemo): tList1;
+var
+  i: Integer;
+  mtitle: string;
+  mWin: tWin;
+  HWND: THandle;
+  Buf: array [0 .. MAX_PATH] of char;
+  mlist1: tList1;
+begin
+  memo.Lines.Clear;
+  // 遍历窗口
+  HWND := GetDesktopWindow;
+  HWND := GetWindow(HWND, GW_CHILD);
+  i := 0;
+  while HWND <> 0 do
+  begin
+    GetWindowText(HWND, Buf, length(Buf));
+    mtitle := strpas(Buf);
+    if mtitle <> '' then
+    begin
+      if title <> cTitle then
+      begin
+        if mtitle.Contains(title) then
+        begin
+          mWin.hwin := HWND;
+          mWin.title := mtitle;
+          mlist1[i] := mWin;
+          i := i + 1;
+          memo.Lines.Add('hwnd:' + inttostr(HWND) + mtitle);
+        end;
+      end
+      else
+
+      begin
+        if mtitle.Contains(title) then
+        begin
+          if i < 100 then
+          begin
+            mWin.hwin := HWND;
+            mWin.title := mtitle;
+            mlist1[i] := mWin;
+            i := i + 1;
+            memo.Lines.Add('hwnd:' + inttostr(HWND) + mtitle);
+          end;
+
+        end;
+      end;
+
+    end;
+    HWND := GetWindow(HWND, GW_HWNDNEXT);
+  end;
+  Result := mlist1;
+end;
+
+procedure TForm1.ComboBox1Change(Sender: TObject);
+begin
+  cWND := mlist1[ComboBox1.ItemIndex].hwin;
+end;
+
+procedure TForm1.Edit1Change(Sender: TObject);
+var
+  i: Integer;
+begin
+  mlist1 := GetAllWin(cTitle, memo1);
+  for i := 0 to 99 do
+  begin
+    if mlist1[i].hwin > 0 then
+    begin
+      ComboBox1.AddItem(mlist1[i].title, Sender);
+    end;
+  end;
 end;
 
 end.

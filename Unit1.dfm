@@ -12,7 +12,6 @@ object Form1: TForm1
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnCreate = FormCreate
-  OnMouseMove = OnMouseMove
   PixelsPerInch = 96
   TextHeight = 15
   object Label1: TLabel
@@ -44,15 +43,15 @@ object Form1: TForm1
     Caption = #25918#22823#38236
   end
   object Label5: TLabel
-    Left = 16
+    Left = 8
     Top = 280
     Width = 55
     Height = 15
     Caption = #25918#22823#20493#25968':'
   end
   object Label6: TLabel
-    Left = 80
-    Top = 280
+    Left = 69
+    Top = 278
     Width = 12
     Height = 15
     Caption = '10'
@@ -99,23 +98,21 @@ object Form1: TForm1
     Height = 15
     Caption = #24403#21069#23631#24149#22352#26631
   end
-  object Button1: TButton
+  object Label13: TLabel
     Left = 8
-    Top = 336
-    Width = 201
-    Height = 73
-    Caption = 'Button1'
-    TabOrder = 0
-    OnClick = Button1Click
+    Top = 312
+    Width = 52
+    Height = 15
+    Caption = #31383#21475#26631#39064
   end
   object memo1: TMemo
     Left = 280
     Top = 173
-    Width = 116
-    Height = 75
+    Width = 169
+    Height = 122
     Lines.Strings = (
       '')
-    TabOrder = 1
+    TabOrder = 0
   end
   object Panel1: TPanel
     Left = 8
@@ -124,7 +121,7 @@ object Form1: TForm1
     Height = 202
     Color = clWhite
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 1
     object Image2: TImage
       Left = 1
       Top = 1
@@ -139,14 +136,41 @@ object Form1: TForm1
     Width = 495
     Height = 41
     Align = alTop
-    TabOrder = 3
+    TabOrder = 2
     object SpeedButton1: TSpeedButton
       Left = 16
       Top = 8
-      Width = 23
+      Width = 129
       Height = 22
       Caption = #20851#20110':qq137405188'
     end
+  end
+  object ComboBox1: TComboBox
+    Left = 8
+    Top = 349
+    Width = 145
+    Height = 23
+    TabOrder = 3
+    Text = #32465#23450#31383#21475
+    OnChange = ComboBox1Change
+  end
+  object Edit1: TEdit
+    Left = 72
+    Top = 304
+    Width = 121
+    Height = 23
+    TabOrder = 4
+    Text = #21462#33394#22120
+    OnChange = Edit1Change
+  end
+  object Button1: TButton
+    Left = 352
+    Top = 344
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 5
+    OnClick = Button1Click
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
