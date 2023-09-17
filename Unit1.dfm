@@ -3,8 +3,8 @@ object Form1: TForm1
   Top = 0
   BorderStyle = bsSingle
   Caption = #21462#33394#22120
-  ClientHeight = 424
-  ClientWidth = 495
+  ClientHeight = 507
+  ClientWidth = 611
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -105,11 +105,25 @@ object Form1: TForm1
     Height = 15
     Caption = #31383#21475#26631#39064
   end
+  object Label14: TLabel
+    Left = 8
+    Top = 384
+    Width = 9
+    Height = 15
+    Caption = 'x:'
+  end
+  object Label15: TLabel
+    Left = 8
+    Top = 416
+    Width = 6
+    Height = 15
+    Caption = 'y'
+  end
   object memo1: TMemo
     Left = 280
     Top = 173
-    Width = 169
-    Height = 122
+    Width = 200
+    Height = 200
     Lines.Strings = (
       '')
     TabOrder = 0
@@ -119,8 +133,11 @@ object Form1: TForm1
     Top = 49
     Width = 202
     Height = 202
+    AutoSize = True
     Color = clWhite
+    Ctl3D = False
     ParentBackground = False
+    ParentCtl3D = False
     TabOrder = 1
     object Image2: TImage
       Left = 1
@@ -133,10 +150,11 @@ object Form1: TForm1
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 495
+    Width = 611
     Height = 41
     Align = alTop
     TabOrder = 2
+    ExplicitWidth = 495
     object SpeedButton1: TSpeedButton
       Left = 16
       Top = 8
@@ -150,8 +168,9 @@ object Form1: TForm1
     Top = 349
     Width = 145
     Height = 23
+    Style = csDropDownList
     TabOrder = 3
-    Text = #32465#23450#31383#21475
+    TextHint = #32465#23450#31383#21475
     OnChange = ComboBox1Change
   end
   object Edit1: TEdit
@@ -160,17 +179,33 @@ object Form1: TForm1
     Width = 121
     Height = 23
     TabOrder = 4
-    Text = #21462#33394#22120
+    Text = #20256#22855
     OnChange = Edit1Change
   end
   object Button1: TButton
-    Left = 352
-    Top = 344
+    Left = 69
+    Top = 399
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = #31227#21160#21407#28857
     TabOrder = 5
     OnClick = Button1Click
+  end
+  object Edit2: TEdit
+    Left = 16
+    Top = 384
+    Width = 47
+    Height = 23
+    TabOrder = 6
+    Text = '0'
+  end
+  object Edit3: TEdit
+    Left = 16
+    Top = 416
+    Width = 47
+    Height = 23
+    TabOrder = 7
+    Text = '0'
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
