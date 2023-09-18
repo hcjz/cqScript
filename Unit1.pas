@@ -36,6 +36,10 @@ type
     Edit2: TEdit;
     Label15: TLabel;
     Edit3: TEdit;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
 
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -43,6 +47,8 @@ type
     procedure Edit1Change(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+
+    procedure memo1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -134,11 +140,11 @@ begin
     w := 20;
     h := 20;
 
-    memo.Clear;
-    memo.Lines.Add('left:' + inttostr(r.Left));
-    memo.Lines.Add('top:' + inttostr(r.Top));
-    memo.Lines.Add('px:' + inttostr(X));
-    memo.Lines.Add('py:' + inttostr(Y));
+//    memo.Clear;
+//    memo.Lines.Add('left:' + inttostr(r.Left));
+//    memo.Lines.Add('top:' + inttostr(r.Top));
+//    memo.Lines.Add('px:' + inttostr(X));
+//    memo.Lines.Add('py:' + inttostr(Y));
     X := X - 10 + 11;
     Y := Y - 10 + 11;
   end
@@ -152,11 +158,11 @@ begin
     w := 20;
     h := 20;
 
-    memo.Clear;
-    memo.Lines.Add('left:' + inttostr(r.Left));
-    memo.Lines.Add('top:' + inttostr(r.Top));
-    memo.Lines.Add('px:' + inttostr(X));
-    memo.Lines.Add('py:' + inttostr(Y));
+//    memo.Clear;
+//    memo.Lines.Add('left:' + inttostr(r.Left));
+//    memo.Lines.Add('top:' + inttostr(r.Top));
+//    memo.Lines.Add('px:' + inttostr(X));
+//    memo.Lines.Add('py:' + inttostr(Y));
     X := X - 10;
     Y := Y - 10;
   end;
@@ -190,6 +196,35 @@ begin
 
 end;
 
+
+procedure TForm1.memo1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+var p1:tpoint;
+begin
+          p1:=Mouse.CursorPos;
+  //up
+  if key=VK_up then
+   begin
+     setCursorPos(p1.X,p1.Y-1);
+
+     //down
+   end else if  key=VK_DOWN then
+   begin
+        setCursorPos(p1.X,p1.Y+1);
+
+     //home
+   end else if  key=VK_LEFT then
+   begin
+        setCursorPos(p1.X-1,p1.Y);
+
+   //end
+   end else if  key=VK_RIGHT then
+   begin
+        setCursorPos(p1.X+1,p1.Y);
+
+   end
+
+end;
+
 procedure TForm1.Timer1Timer(Sender: TObject);
 var
   b: TBitmap;
@@ -207,7 +242,8 @@ begin
   // Memo1.Lines.Clear;
   // Memo1.Lines.Add('px:' + inttostr(point.X));
   // Memo1.Lines.Add('py:' + inttostr(point.Y));
-
+  Label17.Caption:=inttostr(point.X);
+    Label19.Caption:=inttostr(point.y);
   b := TBitmap.Create;
   b.SetSize(20, 20);
   try
@@ -266,6 +302,7 @@ var
   HWND: THandle;
   Buf: array [0 .. MAX_PATH] of char;
   mlist1: Tlist;
+  r:trect;
 begin
   try
     cTitle := '´«Ææ';
@@ -280,6 +317,20 @@ begin
     begin
       GetWindowText(HWND, Buf, length(Buf));
       mtitle := strpas(Buf);
+
+       GetWindowRect(HWND, r);
+       if r.Right-r.Left<=0 then
+       begin
+              HWND := GetWindow(HWND, GW_HWNDNEXT);
+              continue;
+       end;
+         if mtitle.Contains('.exe') then
+       begin
+              HWND := GetWindow(HWND, GW_HWNDNEXT);
+              continue;
+       end;
+
+
       if mtitle <> '' then
       begin
 

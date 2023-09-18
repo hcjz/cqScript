@@ -119,6 +119,34 @@ object Form1: TForm1
     Height = 15
     Caption = 'y'
   end
+  object Label16: TLabel
+    Left = 370
+    Top = 148
+    Width = 6
+    Height = 15
+    Caption = 'x'
+  end
+  object Label17: TLabel
+    Left = 392
+    Top = 148
+    Width = 24
+    Height = 19
+    Caption = '0'
+  end
+  object Label18: TLabel
+    Left = 422
+    Top = 148
+    Width = 18
+    Height = 19
+    Caption = 'y'
+  end
+  object Label19: TLabel
+    Left = 448
+    Top = 148
+    Width = 6
+    Height = 15
+    Caption = '0'
+  end
   object memo1: TMemo
     Left = 280
     Top = 173
@@ -127,6 +155,7 @@ object Form1: TForm1
     Lines.Strings = (
       '')
     TabOrder = 0
+    OnKeyUp = memo1KeyUp
   end
   object Panel1: TPanel
     Left = 8
@@ -154,7 +183,6 @@ object Form1: TForm1
     Height = 41
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 495
     object SpeedButton1: TSpeedButton
       Left = 16
       Top = 8
