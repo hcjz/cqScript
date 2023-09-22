@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 0
-  Top = 0
+  Left = 742
+  Top = 282
   BorderStyle = bsSingle
   Caption = #21462#33394#22120
   ClientHeight = 507
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poDesigned
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 15
@@ -129,15 +130,15 @@ object Form1: TForm1
   object Label17: TLabel
     Left = 392
     Top = 148
-    Width = 24
-    Height = 19
+    Width = 6
+    Height = 15
     Caption = '0'
   end
   object Label18: TLabel
     Left = 422
     Top = 148
-    Width = 18
-    Height = 19
+    Width = 6
+    Height = 15
     Caption = 'y'
   end
   object Label19: TLabel
@@ -234,6 +235,15 @@ object Form1: TForm1
     Height = 23
     TabOrder = 7
     Text = '0'
+  end
+  object Button2: TButton
+    Left = 224
+    Top = 408
+    Width = 75
+    Height = 25
+    Caption = 'test'
+    TabOrder = 8
+    OnClick = Button2Click
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer

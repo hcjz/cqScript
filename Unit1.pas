@@ -40,6 +40,7 @@ type
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
+    Button2: TButton;
 
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -66,7 +67,8 @@ function GetAllWin(title: string; memo: TMemo): Tlist;
 function TColorToHex(Color: TColor): string;
 procedure ScreenShot(activeWindow: bool; destBitmap: TBitmap; memo: TMemo;
   X: Integer; Y: Integer);
-
+  function PrintWindow(SourceWindow: hwnd; Destination: hdc; nFlags: cardinal): bool; stdcall; external 'user32.dll' name 'PrintWindow'
+   function getPointHexColor(x:integer;y:integer):string;
 var
   Form1: TForm1;
   // 选中的当前窗口句柄
@@ -82,6 +84,24 @@ var
   test1: Integer;
   mlist1: Tlist;
 
+   //获取坐标16进制颜色
+function getPointHexColor(x:integer;y:integer):string;
+var
+  s1: string;
+  c: TColor;
+  DC: HDC;
+begin
+
+    try
+
+     DC:=GetDC(cWND);
+     c := GetPixel(DC,x,y);
+     s1:=TColorToHex(c) ;
+    finally
+        ReleaseDC(cWND, DC);
+    end;
+    Result :=s1;
+end;
 procedure TForm1.Button1Click(Sender: TObject);
 var
   b: TBitmap;
@@ -108,7 +128,7 @@ begin
     SetForegroundWindow(hwin);
 
   MoveWindow(hwin, strtoint(Edit2.Text), strtoint(Edit3.Text),
-      r.Right - r.Left, r.Bottom - r.Top, True);
+      r.Right - r.Left,r.Bottom - r.Top, True);
     // ScreenShot(TRUE, b, memo1, point.X, point.Y);
     // b.SaveToFile('c:\cq\debug\text.bmp');
     // Image2.Picture.Bitmap.Assign(b);
@@ -133,20 +153,22 @@ begin
   begin
     hwin := cWND;
     DC := GetWindowDC(hwin);
-    // GetWindowRect(hwin, r);
-    GetClientRect(hwin, r);
+    //GetWindowRect(hwin, r);
+   GetClientRect(hwin, r);
     w := r.Right - r.Left;
     h := r.Bottom - r.Top;
-    w := 20;
-    h := 20;
-
 //    memo.Clear;
 //    memo.Lines.Add('left:' + inttostr(r.Left));
 //    memo.Lines.Add('top:' + inttostr(r.Top));
 //    memo.Lines.Add('px:' + inttostr(X));
 //    memo.Lines.Add('py:' + inttostr(Y));
-    X := X - 10 + 11;
-    Y := Y - 10 + 11;
+//    memo.Lines.Add('left:' + inttostr(w));
+//    memo.Lines.Add('top:' + inttostr(h));
+    //w := 20;
+    //h := 20;
+    //X := X - 10 + 11;
+    //Y := Y - 10 + 11;
+
   end
   else
   begin
@@ -168,10 +190,11 @@ begin
   end;
 
   try
-    destBitmap.Width := w;
-    destBitmap.Height := h;
+    //destBitmap.Width := 1209;
+    //destBitmap.Height := 944;
     BitBlt(destBitmap.Canvas.Handle, 0, 0, destBitmap.Width, destBitmap.Height,
-      DC, X, Y, SRCCOPY);
+     DC, X, Y, SRCCOPY);
+      //PrintWindow(hwin,destBitmap.Canvas.Handle, 0);
   finally
     ReleaseDC(hwin, DC);
 
@@ -235,6 +258,8 @@ var
   mcolor: TColor;
   captionh: Integer;
   frameh: Integer;
+  p0x:Integer;
+  p0y:Integer;
 begin
   GetCursorPos(point); // 取得鼠标坐标
 
@@ -242,8 +267,12 @@ begin
   // Memo1.Lines.Clear;
   // Memo1.Lines.Add('px:' + inttostr(point.X));
   // Memo1.Lines.Add('py:' + inttostr(point.Y));
-  Label17.Caption:=inttostr(point.X);
-    Label19.Caption:=inttostr(point.y);
+  if Edit2.Text<>'' then
+  p0x:=StrToInt(Edit2.Text);
+   if Edit3.Text<>'' then
+  p0y:=StrToInt(Edit3.Text);
+  Label17.Caption:=inttostr(point.X-p0x);
+    Label19.Caption:=inttostr(point.y-p0y);
   b := TBitmap.Create;
   b.SetSize(20, 20);
   try
@@ -369,12 +398,64 @@ begin
   Result := mlist1;
 end;
 
+function test2():integer;
+begin
+      if 1=1 then
+      begin
+        //result:=1;
+        //exit;
+      end;
+       result:=2;
+end;
 procedure TForm1.Button2Click(Sender: TObject);
  var r: TRect;
-
+     b: TBitmap;
   hwin: Cardinal;
+  cs1:string;
+    DC: HDC;
+
 begin
-    
+try
+
+  hwin := cWND;
+   // DC := GetWindowDC(hwin);
+   // GetWindowRect(hwin, r);
+//     memo1.Clear;
+//     memo1.Lines.Add('ww'+inttostr(r.Right-r.Left));
+//     memo1.Lines.Add('wh'+inttostr(r.Height));
+//   Winapi.Windows.GetClientRect(hwin, r);
+//      memo1.Lines.Add('cw'+inttostr(r.Right-r.Left));
+//     memo1.Lines.Add('ch'+inttostr(r.Height));
+
+    b := TBitmap.Create;
+    b.Width:=900;
+    b.Height:=700;
+//     DC := GetDC(cWND);
+//        BitBlt(b.Canvas.Handle, 0, 0, 1, 1,
+//     DC, 143,0, SRCCOPY);
+//
+//        memo1.Lines.Add(inttostr(cWND));
+//
+          // memo1.Lines.Add(getPointHexColor(29,26));
+
+        //if cs1 = '04D704'  then
+
+
+       //b := TBitmap.Create;
+        //  if cWND <> 0 then
+
+      ScreenShot(true, b, memo1,0,0);
+         cs1:=TColorToHex(b.Canvas.Pixels[65,85]);
+          memo1.Lines.Add(cs1);
+           cs1:=TColorToHex(b.Canvas.Pixels[65,86]);
+          memo1.Lines.Add(cs1);
+      //memo1.Lines.Add(inttostr(test2()));
+      b.SaveToFile('c:\cq\debug\text.bmp');
+    finally
+    b.FreeImage;
+    FreeAndNil(b);
+//ReleaseDC(cWND, DC);
+    end;
 end;
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
