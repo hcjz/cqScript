@@ -208,7 +208,7 @@ object Form1: TForm1
     Width = 121
     Height = 23
     TabOrder = 4
-    Text = #20256#22855
+    Text = #40511#33945
     OnChange = Edit1Change
   end
   object Button1: TButton

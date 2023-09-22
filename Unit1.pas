@@ -426,6 +426,32 @@ try
 //   Winapi.Windows.GetClientRect(hwin, r);
 //      memo1.Lines.Add('cw'+inttostr(r.Right-r.Left));
 //     memo1.Lines.Add('ch'+inttostr(r.Height));
+    Winapi.Windows.GetWindowRect(cWND, r);
+
+    if (r.Bottom-r.Top)<200 then
+     begin
+          memo1.Clear;
+          memo1.Lines.Add('ch'+inttostr(r.Left));
+          memo1.Lines.Add('ch'+inttostr(r.Top));
+             ShowWindow(cWND, SW_SHOW);
+          sleep(300);
+          // MoveWindow(cWND,-8000,-8000, 1200,900, True);
+
+     end
+    else
+     begin
+         memo1.Clear;
+          memo1.Lines.Add('ch'+inttostr(r.Left));
+          memo1.Lines.Add('ch'+inttostr(r.Top));
+           memo1.Lines.Add('ch'+inttostr(r.Right));
+          memo1.Lines.Add('ch'+inttostr(r.Bottom));
+           MoveWindow(cWND,0,0, 1200,900, True);
+         //ShowWindow(cWND, SW_RESTORE);
+          sleep(300);
+     end;
+
+
+
 
     b := TBitmap.Create;
     b.Width:=900;
@@ -445,10 +471,6 @@ try
         //  if cWND <> 0 then
 
       ScreenShot(true, b, memo1,0,0);
-         cs1:=TColorToHex(b.Canvas.Pixels[65,85]);
-          memo1.Lines.Add(cs1);
-           cs1:=TColorToHex(b.Canvas.Pixels[65,86]);
-          memo1.Lines.Add(cs1);
       //memo1.Lines.Add(inttostr(test2()));
       b.SaveToFile('c:\cq\debug\text.bmp');
     finally
