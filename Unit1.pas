@@ -406,6 +406,7 @@ begin
         //exit;
       end;
        result:=2;
+
 end;
 procedure TForm1.Button2Click(Sender: TObject);
  var r: TRect;
@@ -413,7 +414,7 @@ procedure TForm1.Button2Click(Sender: TObject);
   hwin: Cardinal;
   cs1:string;
     DC: HDC;
-
+    can : TCanvas;
 begin
 try
 
@@ -428,35 +429,34 @@ try
 //     memo1.Lines.Add('ch'+inttostr(r.Height));
     Winapi.Windows.GetWindowRect(cWND, r);
 
-    if (r.Bottom-r.Top)<200 then
-     begin
-          memo1.Clear;
-          memo1.Lines.Add('ch'+inttostr(r.Left));
-          memo1.Lines.Add('ch'+inttostr(r.Top));
-             ShowWindow(cWND, SW_SHOW);
-          sleep(300);
-          // MoveWindow(cWND,-8000,-8000, 1200,900, True);
-
-     end
-    else
-     begin
-         memo1.Clear;
-          memo1.Lines.Add('ch'+inttostr(r.Left));
-          memo1.Lines.Add('ch'+inttostr(r.Top));
-           memo1.Lines.Add('ch'+inttostr(r.Right));
-          memo1.Lines.Add('ch'+inttostr(r.Bottom));
-           MoveWindow(cWND,0,0, 1200,900, True);
-         //ShowWindow(cWND, SW_RESTORE);
-          sleep(300);
-     end;
+//    if (r.Bottom-r.Top)<200 then
+//     begin
+//             ShowWindow(cWND, SW_SHOW);
+//          sleep(300);
+//          // MoveWindow(cWND,-8000,-8000, 1200,900, True);
+//
+//     end
+//    else
+//     begin
+//
+//           MoveWindow(cWND,0,0, 1200,900, True);
+//         //ShowWindow(cWND, SW_RESTORE);
+//          sleep(300);
+//     end;
 
 
 
 
     b := TBitmap.Create;
     b.Width:=900;
-    b.Height:=700;
-//     DC := GetDC(cWND);
+    b.Height:=900;
+    //DC := GetDC(cWND);
+    //can := TCanvas.Create;
+
+
+    //can.Handle := dc;
+
+    //memo1.Lines.Add(TColorToHex(can.Pixels[0,0]));
 //        BitBlt(b.Canvas.Handle, 0, 0, 1, 1,
 //     DC, 143,0, SRCCOPY);
 //
@@ -472,11 +472,12 @@ try
 
       ScreenShot(true, b, memo1,0,0);
       //memo1.Lines.Add(inttostr(test2()));
-      b.SaveToFile('c:\cq\debug\text.bmp');
+     b.SaveToFile('c:\cq\debug\text.bmp');
     finally
     b.FreeImage;
+     // can.Free;
     FreeAndNil(b);
-//ReleaseDC(cWND, DC);
+    //ReleaseDC(cWND, DC);
     end;
 end;
 
